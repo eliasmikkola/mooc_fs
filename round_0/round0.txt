@@ -1,0 +1,56 @@
+title 0.3 muistiinpanojen sivu
+
+
+käyttäjä->selain: 
+note left of selain: käyttäjä kirjoittaa sivun\n"https://fullstack-exampleapp.herokuapp.com/notes"
+selain->palvelin: GET fullstack-exampleapp.herokuapp.com/notes
+palvelin->selain: status 200, sivun html
+note left of selain:selain näyttää ladatun sivun, ilman CSS tai muistiinpanoja
+
+selain->palvelin: GET fullstack-exampleapp.herokuapp.com/main.css
+palvelin->selain: status 200, sivun CSS
+note left of selain: selain näyttää sivun CSS-tyyleineen, ilman muistiinpanoja
+selain->palvelin: GET fullstack-exampleapp.herokuapp.com/main.js
+palvelin->selain: status 200, sivun JavaScript
+note right of selain:kun main.js on latautunut, sen sisältämä JavaScript suoritetaan
+selain->palvelin: GET fullstack-exampleapp.herokuapp.com/data.json
+palvelin->selain: status 200, tiedoston data.json sisältö
+note right of selain:main.js:ssä määritelty XMLHttpRequestin onreadystatechange\n event handler funktion Javascript suoritetaan\n->DOM-puuhun lisätään jokaista data.jsonin sisältämää muistiinpanoa kohden <ul>-elementti;\n->niiden sisällä on <li>, jonka sisällä on tekstisolmu, jossa on muistiinpanon "content"-kentän sisältö
+note left of selain:selain näyttää sivun CSS-tyyleineen ja muistiinpanoineen
+
+0.4
+title 0.4 Uusi muistiinpano
+
+
+
+käyttäjä->selain: 
+note left of selain: käyttäjä painaa "Talleta"-nappia sivulla\n"fullstack-exampleapp.herokuapp.com/notes"
+selain->palvelin: POST fullstack-exampleapp.herokuapp.com/new_note 
+note left of selain: selain lähettää POST pyynnön ja lähetettävä Form Data sisältää kentän "note", \n jonka arvo on käyttäjän tekstikenttään kirjoittama teksti 
+note left of palvelin: palvelin vastaanottaa POST pyynnön, ja lisää vastaanotetun muistiinpanon data.json-tiedostoon
+palvelin->selain: status 302, redirect
+note left of selain:selain uudelleenohjaa palvelimen vastauksen Headeriin "Location" määritettyyn osoitteeseen /notes
+note left of selain:sama tapahtumaketju, kuin tehtävässä 0.3, \nmutta data.json tiedostoon on nyt päivittynyt \nkäyttäjän syöttämä ja selaimen palvelimelle lähettämä muistiinpano
+
+
+title 0.5 Single page app
+
+käyttäjä->selain: 
+
+note left of selain: käyttäjä kirjoittaa sivun\n"https://fullstack-exampleapp.herokuapp.com/spa"
+selain->palvelin: GET fullstack-exampleapp.herokuapp.com/spa
+palvelin->selain: status 200, sivun html
+note left of selain:selain näyttää ladatun sivun, ilman CSS tai muistiinpanoja
+
+selain->palvelin: GET fullstack-exampleapp.herokuapp.com/main.css
+palvelin->selain: status 200, sivun CSS
+note left of selain: selain näyttää sivun CSS-tyyleineen, ilman muistiinpanoja
+selain->palvelin: GET fullstack-exampleapp.herokuapp.com/spa.js
+palvelin->selain: status 200, sivun JavaScript
+note right of selain:kun spa.js on latautunut, sen sisältämä JavaScript suoritetaan\nJavaScriptissa luodaan muuttujan notes, joka on tyhjä lista
+selain->palvelin: GET fullstack-exampleapp.herokuapp.com/data.json
+palvelin->selain: status 200, tiedoston data.json sisältö
+note right of selain:data.json tiedoston sisältö parsitaan JSON API:n parse-funktiolla ja tallennetaan spa.js:ssä luotuun "notes" -arraymuuttujaan
+note right of selain: spa.js :n  funktio redrawNotes lisää sitten <ul> elementit DOM:iin  
+note left of selain:selain näyttää sivun CSS-tyyleineen ja muistiinpanoineen
+
