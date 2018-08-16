@@ -9,7 +9,15 @@ const Header = (props) => (
     <h1>{props.title}</h1>
 )
 const Statistic = (props) => (
-    <p>{props.title}   {props.count}</p>
+    <p>{props.title}   {props.stat}</p>
+)
+
+const Statistics = (props) => (
+    props.stats.map(n => {
+        return (
+            <Statistic title={n.title} stat={n.stat} key={n.title}/>
+        )
+    })
 )
 
 class App extends React.Component {
@@ -45,6 +53,28 @@ class App extends React.Component {
     render() {
         const median = Math.round( (this.state.total > 0 ? (this.state.good + (this.state.bad * -1) ) / this.state.total : 0) * 10 ) / 10
         const positive = Math.round(100 * (this.state.total > 0 ? this.state.good  / this.state.total : 0) * 10 ) / 10 +"%"
+        const stats = [
+            {
+                title: "hyvä",
+                stat:this.state.good
+            },
+            {
+                title: "neutraali",
+                stat:this.state.neutral
+            },
+            {
+                title: "huono",
+                stat:this.state.bad
+            },
+            {
+                title: "keskiarvo",
+                stat:median
+            },
+            {
+                title: "positiivista",
+                stat:positive
+            }
+        ]
         return (
             <div>
                 <div>
@@ -53,11 +83,7 @@ class App extends React.Component {
                     <Button handler={() => this.voteNeutral()} title={"neutraali"} />
                     <Button handler={() => this.voteBad()} title={"huono"} />
                     <Header title="Statistiikka"/>
-                    <Statistic title="hyvä" count={this.state.good}/>
-                    <Statistic title="neutraali" count={this.state.neutral}/>
-                    <Statistic title="huono" count={this.state.bad}/>
-                    <Statistic title="keskiarvo" count={median}/>
-                    <Statistic title="positiivista" count={positive}/>
+                    <Statistics stats={stats}/>
                 </div>
             </div>
         )
