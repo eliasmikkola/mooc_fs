@@ -17,24 +17,18 @@ const Sisalto = (props) =>  {
 		osaArray.push(
 			<Osa nimi = {osa.nimi} tehtavia = {osa.tehtavia} key={osa.nimi}/>
 		)
-
 	})
 	return (
-		<div>
-			{
-				osaArray
-			}
-			
-		</div>
+		<div>{osaArray}</div>
 	)
 }
 
 const Yhteensa = (props) => {
-	
 	return (
 		<p>yhteensä {props.osat.map(n=>n.tehtavia).reduce((x,y)=>x+y)} tehtävää</p>
 	)
 }
+
 const App = () => {
 	
 	const kurssi = 'Half Stack -sovelluskehitys'
@@ -54,11 +48,11 @@ const App = () => {
 	]
 
   return (
-	<div>
-	  <Otsikko kurssi={kurssi} />
-	  <Sisalto osat={osat}/>
-	  <Yhteensa osat={osat} />
-	</div>
+		<div>
+			<Otsikko kurssi={kurssi} />
+			<Sisalto osat={osat}/>
+			<Yhteensa osat={osat} />
+		</div>
   )
 }
 
