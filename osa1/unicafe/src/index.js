@@ -12,13 +12,17 @@ const Statistic = (props) => (
     <p>{props.title}   {props.stat}</p>
 )
 
-const Statistics = (props) => (
-    props.stats.map(n => {
-        return (
-            <Statistic title={n.title} stat={n.stat} key={n.title}/>
-        )
-    })
-)
+const Statistics = (props) => {
+    if(props.total > 0){
+        return props.stats.map(n => {
+            return (
+                <Statistic title={n.title} stat={n.stat} key={n.title}/>
+            )
+        })
+    } else {
+        return <p>ei yhtään palautatte annettu</p>
+    }   
+}
 
 class App extends React.Component {
     constructor(props) {
@@ -83,7 +87,7 @@ class App extends React.Component {
                     <Button handler={() => this.voteNeutral()} title={"neutraali"} />
                     <Button handler={() => this.voteBad()} title={"huono"} />
                     <Header title="Statistiikka"/>
-                    <Statistics stats={stats}/>
+                    <Statistics stats={stats} total={this.state.total}/>
                 </div>
             </div>
         )
