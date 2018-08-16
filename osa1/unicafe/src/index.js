@@ -35,28 +35,17 @@ class App extends React.Component {
       }
     }
     
-    voteGood = (value) => {
-        this.setState({
-            good: this.state.good + 1,
-            total: this.state.total + 1
-        })
+    
+    vote = (newState) => {
+        newState["total"] = this.state.total + 1
+        this.setState(newState)
     }
-    voteNeutral = (value) => {
-        this.setState({
-            neutral: this.state.neutral + 1,
-            total: this.state.total + 1
-        })
-    }
-    voteBad = (value) => {
-        this.setState({
-            bad: this.state.bad + 1,
-            total: this.state.total + 1
-        })
-    }
+    
   
     render() {
         const median = Math.round( (this.state.total > 0 ? (this.state.good + (this.state.bad * -1) ) / this.state.total : 0) * 10 ) / 10
         const positive = Math.round(100 * (this.state.total > 0 ? this.state.good  / this.state.total : 0) * 10 ) / 10 +"%"
+        
         const stats = [
             {
                 title: "hyvä",
@@ -83,9 +72,9 @@ class App extends React.Component {
             <div>
                 <div>
                     <Header title="Anna palautetta"/>
-                    <Button handler={() => this.voteGood()} title={"hyvä"} />
-                    <Button handler={() => this.voteNeutral()} title={"neutraali"} />
-                    <Button handler={() => this.voteBad()} title={"huono"} />
+                    <Button handler={() => this.vote({good:this.state.good +1})} title={"hyvä"} />
+                    <Button handler={() => this.vote({neutral:this.state.neutral +1})} title={"neutraali"} />
+                    <Button handler={() => this.vote({bad:this.state.bad +1})} title={"huono"} />
                     <Header title="Statistiikka"/>
                     <Statistics stats={stats} total={this.state.total}/>
                 </div>
