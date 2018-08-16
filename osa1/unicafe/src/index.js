@@ -9,16 +9,27 @@ const Header = (props) => (
     <h1>{props.title}</h1>
 )
 const Statistic = (props) => (
-    <p>{props.title}   {props.stat}</p>
+    <tr>
+        <td>{props.title}</td>
+        <td>{props.stat}</td>
+    </tr>
 )
 
 const Statistics = (props) => {
     if(props.total > 0){
-        return props.stats.map(n => {
-            return (
-                <Statistic title={n.title} stat={n.stat} key={n.title}/>
-            )
-        })
+        return (
+            <table>
+            <tbody>
+            {
+                props.stats.map(n => {
+                    return (
+                        <Statistic title={n.title} stat={n.stat} key={n.title}/>
+                    )
+                })
+            }
+            </tbody>
+        </table>)
+        
     } else {
         return <p>ei yhtään palautatte annettu</p>
     }   
