@@ -18,42 +18,49 @@ class App extends React.Component {
       this.state = {
         good: 0,
         neutral: 0,
-        bad: 0
+        bad: 0,
+        total: 0
       }
     }
     
     voteGood = (value) => {
         this.setState({
-            good: this.state.good + 1
+            good: this.state.good + 1,
+            total: this.state.total + 1
         })
     }
     voteNeutral = (value) => {
         this.setState({
-            neutral: this.state.neutral + 1
+            neutral: this.state.neutral + 1,
+            total: this.state.total + 1
         })
     }
     voteBad = (value) => {
         this.setState({
-            bad: this.state.bad + 1
+            bad: this.state.bad + 1,
+            total: this.state.total + 1
         })
     }
   
     render() {
-
-      return (
-        <div>
-          <div>
-            <Header title="Anna palautetta"/>
-            <Button handler={() => this.voteGood()} title={"hyvä"} />
-            <Button handler={() => this.voteNeutral()} title={"neutraali"} />
-            <Button handler={() => this.voteBad()} title={"huono"} />
-            <Header title="Statistiikka"/>
-            <Statistic title="hyvä" count={this.state.good}/>
-            <Statistic title="neutraali" count={this.state.neutral}/>
-            <Statistic title="huono" count={this.state.bad}/>
-          </div>
-        </div>
-      )
+        const median = Math.round( (this.state.total > 0 ? (this.state.good + (this.state.bad * -1) ) / this.state.total : 0) * 10 ) / 10
+        const positive = Math.round(100 * (this.state.total > 0 ? this.state.good  / this.state.total : 0) * 10 ) / 10 +"%"
+        return (
+            <div>
+                <div>
+                    <Header title="Anna palautetta"/>
+                    <Button handler={() => this.voteGood()} title={"hyvä"} />
+                    <Button handler={() => this.voteNeutral()} title={"neutraali"} />
+                    <Button handler={() => this.voteBad()} title={"huono"} />
+                    <Header title="Statistiikka"/>
+                    <Statistic title="hyvä" count={this.state.good}/>
+                    <Statistic title="neutraali" count={this.state.neutral}/>
+                    <Statistic title="huono" count={this.state.bad}/>
+                    <Statistic title="keskiarvo" count={median}/>
+                    <Statistic title="positiivista" count={positive}/>
+                </div>
+            </div>
+        )
     }
   }
   ReactDOM.render(
