@@ -23,13 +23,21 @@ class App extends React.Component {
 
       ],
 			newName: '',
-			newNumber: ''
+			newNumber: '',
+			filter: ''
 		}
+		
+		
 		this.handleNoteChange = (event) => {
 			event.preventDefault()
 			console.log(event.target.name)
 			this.setState({ [event.target.name]: event.target.value })
 		}
+
+		this.setFilter = (event) => {
+			this.setState({filter: event.target.value})
+		}
+
 		this.submitHandler = (e) => {
 			e.preventDefault()
 			
@@ -51,15 +59,24 @@ class App extends React.Component {
 					persons: personsCopy
 				})
 			}
-			
 		}
 
   }
 
   render() {
+
+		const filteredContacts = this.state.persons.filter(contact => {
+			return contact.name.toLowerCase().includes(this.state.filter.toLowerCase())
+		})
     return (
       <div>
         <h2>Puhelinluettelo</h2>
+				<form onSubmit={(e) => e.preventDefault()}>
+          <div>
+            Rajaa kontakteja: <input value={this.state.filter} onChange={this.setFilter} name="filter"/>
+          </div>
+        </form>
+				
         <form onSubmit={this.submitHandler}>
           <div>
             nimi: <input value={this.state.newName} onChange={this.handleNoteChange} name="newName"/>
@@ -71,7 +88,7 @@ class App extends React.Component {
             <button type="submit">lisää</button>
           </div>
         </form>
-				<ContactList persons={this.state.persons} />
+				<ContactList persons={filteredContacts} />
         
       </div>
     )
