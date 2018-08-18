@@ -1,15 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-const Contact = (props) => (
-	<p>{props.name} {props.number}</p>
-)
-const ContactList = (props) => {
-		return props.persons.map(person => {
-			return <Contact name={person.name} number={person.number} key={person.name}/>
-		})
-}
-
+import ContactList from './ContactList'
+import Filter from './Filter'
 
 class App extends React.Component {
   constructor(props) {
@@ -71,12 +63,9 @@ class App extends React.Component {
     return (
       <div>
         <h2>Puhelinluettelo</h2>
-				<form onSubmit={(e) => e.preventDefault()}>
-          <div>
-            Rajaa kontakteja: <input value={this.state.filter} onChange={this.setFilter} name="filter"/>
-          </div>
-        </form>
 				
+				
+				<Filter filter={this.state.filter} handler={this.setFilter} />
         <form onSubmit={this.submitHandler}>
           <div>
             nimi: <input value={this.state.newName} onChange={this.handleNoteChange} name="newName"/>
