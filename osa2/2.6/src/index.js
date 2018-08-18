@@ -2,14 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 const Contact = (props) => (
-	<p>{props.name}</p>
+	<p>{props.name} {props.number}</p>
 )
 const ContactList = (props) => {
 		return props.persons.map(person => {
-			return <Contact name={person.name} key={person.name}/>
+			return <Contact name={person.name} number={person.number} key={person.name}/>
 		})
-		
-	
 }
 
 
@@ -18,14 +16,19 @@ class App extends React.Component {
     super(props)
     this.state = {
       persons: [
-        { name: 'Arto Hellas' }
+        { name: 'Arto Hellas', number: '040-123456' },
+      { name: 'Martti Tienari', number: '040-123456' },
+      { name: 'Arto Järvinen', number: '040-123456' },
+      { name: 'Lea Kutvonen', number: '040-123456' }
+
       ],
-      newName: ''
+			newName: '',
+			newNumber: ''
 		}
 		this.handleNoteChange = (event) => {
 			event.preventDefault()
-			console.log(event.target.value)
-			this.setState({ newName: event.target.value })
+			console.log(event.target.name)
+			this.setState({ [event.target.name]: event.target.value })
 		}
 		this.submitHandler = (e) => {
 			e.preventDefault()
@@ -39,10 +42,12 @@ class App extends React.Component {
 			} else {
 				var personsCopy = [...this.state.persons]
 				personsCopy.push({
-					name: this.state.newName
+					name: this.state.newName,
+					number: this.state.newNumber
 				})
 				this.setState({
 					newName: '',
+					newNumber: '',
 					persons: personsCopy
 				})
 			}
@@ -57,7 +62,10 @@ class App extends React.Component {
         <h2>Puhelinluettelo</h2>
         <form onSubmit={this.submitHandler}>
           <div>
-            nimi: <input value={this.state.newName} onChange={this.handleNoteChange}/>
+            nimi: <input value={this.state.newName} onChange={this.handleNoteChange} name="newName"/>
+          </div>
+					<div>
+            numero: <input value={this.state.newNumber} onChange={this.handleNoteChange} name="newNumber"/>
           </div>
           <div>
             <button type="submit">lisää</button>
