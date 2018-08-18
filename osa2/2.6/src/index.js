@@ -29,14 +29,24 @@ class App extends React.Component {
 		}
 		this.submitHandler = (e) => {
 			e.preventDefault()
-			var personsCopy = [...this.state.persons]
-			personsCopy.push({
-				name: this.state.newName
+			
+			const alreadyExists = this.state.persons.find((person)=> {
+				return person.name === this.state.newName
 			})
-			this.setState({
-				newName: '',
-				persons: personsCopy
-			})
+			
+			if(alreadyExists){
+				alert(`Contact "${this.state.newName}" already exists.`)
+			} else {
+				var personsCopy = [...this.state.persons]
+				personsCopy.push({
+					name: this.state.newName
+				})
+				this.setState({
+					newName: '',
+					persons: personsCopy
+				})
+			}
+			
 		}
 
   }
