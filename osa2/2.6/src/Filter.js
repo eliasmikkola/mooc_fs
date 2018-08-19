@@ -1,6 +1,5 @@
-
-
 import React from 'react'
+
 const Filter = (props) => {
 	return (
 		<form onSubmit={(e) => e.preventDefault()}>
@@ -10,8 +9,5 @@ const Filter = (props) => {
 		</form>
 	)
 }
-
-
-
 
 export default Filter
