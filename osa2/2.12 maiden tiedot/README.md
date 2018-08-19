@@ -1,1 +1,1 @@
- app for exercises 2.6
+ app for exercises 2.12
