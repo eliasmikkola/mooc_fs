@@ -1,11 +1,16 @@
 import React from 'react'
 
 const Contact = (props) => (
-	<p>{props.name} {props.number}</p>
+    <div>
+        <p>{props.contact.name} {props.contact.number}
+            <button onClick={() => props.deleteHandler(props.contact)}>poista</button>
+        </p>
+    </div>
+	
 )
 const ContactList = (props) => {
     return props.persons.map(person => {
-        return <Contact name={person.name} number={person.number} key={person.name}/>
+        return <Contact contact={person} key={person.id} deleteHandler={props.deleteHandler}/>
     })
 }
 
