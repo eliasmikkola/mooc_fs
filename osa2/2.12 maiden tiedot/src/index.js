@@ -10,7 +10,8 @@ class App extends React.Component {
     super(props)
     this.state = {
       countries: [],
-			filter: ''
+			filter: '',
+			selected: null
 		}
 		
 		
@@ -23,30 +24,14 @@ class App extends React.Component {
 		this.setFilter = (event) => {
 			this.setState({filter: event.target.value})
 		}
-
+		
 		this.submitHandler = (e) => {
 			e.preventDefault()
-			
-			const alreadyExists = this.state.persons.find((person)=> {
-				return person.name === this.state.newName
-			})
-			
-			if(alreadyExists){
-				alert(`Contact "${this.state.newName}" already exists.`)
-			} else {
-				var personsCopy = [...this.state.persons]
-				personsCopy.push({
-					name: this.state.newName,
-					number: this.state.newNumber
-				})
-				this.setState({
-					newName: '',
-					newNumber: '',
-					persons: personsCopy
-				})
-			}
 		}
 
+		this.setSelection = (id) => {
+			this.setState({selected: id})
+		}
   }
 	componentDidMount() {
 		axios
@@ -56,7 +41,11 @@ class App extends React.Component {
 			})	
 	}
   render() {
-		const filteredCountries = this.state.countries.filter(country => {
+		const filteredCountries = this.state.selected !== null ? 
+		this.state.countries.filter(country => {
+			return country.alpha3Code === this.state.selected
+		})
+		: this.state.countries.filter(country => {
 			return country.name.toLowerCase().includes(this.state.filter.toLowerCase())
 		})
 
@@ -68,7 +57,7 @@ class App extends React.Component {
         <form onSubmit={this.searchChanged}>
           
         </form>
-				<CountryList countries={filteredCountries} />
+				<CountryList selection={this.state.selected} countries={filteredCountries} handler={this.setSelection} hasSelected={this.state.selected !== null}/>
         
       </div>
     )
